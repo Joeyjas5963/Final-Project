@@ -1,4 +1,6 @@
 import googlemaps
+import pandas as pd
+import json
 
 KEY = 'AIzaSyBa7_tGiDTn4v4PQAYwWc5umPhg0vaIN3E'
 
@@ -30,14 +32,30 @@ def map_image(d, o):
 
     link = HEAD + 'size=400x400&path=color:0x0000ff|weight:5' + path + '&key=' + KEY
 
-    return link
+    return link, steps
 
 def main():
 
     d = 'Millis, MA'
     o = 'Boston, MA'
-    link = map_image(d, o)
+    link, steps = map_image(d, o)
     print(link)
+    print(steps)
+    df_steps = pd.DataFrame(steps)
+    print(df_steps.to_string())
+    print(df_steps['distance'])
+    texts = []
+    for s in df_steps['distance']:
+        texts.append(s['text'])
+    print(texts)
+
+    df_steps['text'] = texts
+    print(df_steps.to_string())
+
+
+
+
+
 
 
 main()
